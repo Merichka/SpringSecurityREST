@@ -1,0 +1,28 @@
+<th:block th:fragment="left">
+    <div class="col-2 p-0 min-vh-100 mb-n5 bg-white">
+        <nav class="nav nav-pills flex-column mb-auto">
+            <th:block th:if="${#httpServletRequest.requestURI != '/admin'}">
+                <a class="nav-link" th:each="u,iterStat : ${users}"
+                   th:with="href=@{/admin/users/{id}(id=${u.getId()})}"
+                   th:class="${user.id == u.id} ? 'nav-link active' : 'nav-link'"
+                   th:aria-current="${user.id == u.id} ? 'page' : ''"
+                   th:href="${#strings.contains(iterStat,'ADMIN') ? '/admin' : href}"
+                   th:text="${u.getFirstName()}"></a>
+            </th:block>
+
+            <th:block th:if="${#httpServletRequest.requestURI == '/user'}">
+                <a class="nav-link active disabled"
+                   th:text="${user.getFirstName()}"></a>
+            </th:block>
+
+            <th:block th:if="${#httpServletRequest.requestURI == '/admin'}">
+                <a class="nav-link" th:each="u,iterStat : ${users}"
+                   th:with="href=@{/admin/users/{id}(id=${u.getId()})}"
+                   th:class="${#authentication.name == u.email} ? 'nav-link active' : 'nav-link'"
+                   th:aria-current="${user.id == u.id} ? 'page' : ''"
+                   th:href="${#strings.contains(iterStat,'ADMIN') ? '/admin' : href}"
+                   th:text="${u.getFirstName()}"></a>
+            </th:block>
+        </nav>
+    </div>
+</th:block>
